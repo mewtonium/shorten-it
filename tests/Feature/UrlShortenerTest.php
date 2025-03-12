@@ -31,3 +31,18 @@ test('a 404 is thrown if attempting to visit an invalid shortened url', function
 
     $response->assertStatus(404);
 });
+
+test('the number of visits is incremented', function () {
+    $url = Url::factory()
+        ->unvisited()
+        ->create([
+            'url' => 'https://www.google.co.uk',
+        ]);
+
+    $this->get(ShortenUrl::run($url));
+
+    $url->refresh();
+
+    expect($url->visits)->toBe(1);
+    expect($url->last_visited_at)->not->toBeNull();
+});
