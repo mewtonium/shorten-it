@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Actions\ShortenUrl;
 use App\Models\Url;
+use Vinkla\Hashids\Facades\Hashids;
 
 class UrlObserver
 {
@@ -12,6 +12,8 @@ class UrlObserver
      */
     public function created(Url $url): void
     {
-        ShortenUrl::run($url);
+        $url->update([
+            'hash' => Hashids::encode($url->id),
+        ]);
     }
 }

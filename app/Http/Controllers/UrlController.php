@@ -14,6 +14,6 @@ class UrlController extends Controller
     {
         UpdateUrlVisits::run($url);
 
-        return redirect()->to($url->url);
+        return redirect()->away($url->url);
     }
 }
