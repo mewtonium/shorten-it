@@ -5,11 +5,17 @@ use App\Models\Url;
 use Illuminate\Support\Str;
 
 test('a url can be shortened', function () {
-    $url = Url::factory()->create([
+    $response = $this->post(route('url.shorten'), [
         'url' => 'https://www.google.co.uk',
     ]);
 
-    $shortenedUrl = ShortenUrl::run($url);
+    $response->assertSessionHasNoErrors();
+
+    $this->assertDatabaseHas(Url::class, [
+        'url' => 'https://www.google.co.uk',
+    ]);
+
+    $shortenedUrl = ShortenUrl::run(Url::first());
 
     expect(Str::of($shortenedUrl)->isMatch('#^'.config('app.url').'\/[a-zA-Z0-9]{7}$#'))->toBeTrue();
 });
@@ -45,4 +51,16 @@ test('the number of visits is incremented', function () {
 
     expect($url->visits)->toBe(1);
     expect($url->last_visited_at)->not->toBeNull();
+});
+
+test('a shortened url cannot be created if an invalid url is entered', function () {
+    $response = $this->post(route('url.shorten'), [
+        'url' => 'invalid-url',
+    ]);
+
+    $response->assertSessionHasErrors('url');
+
+    $this->assertDatabaseMissing(Url::class, [
+        'url' => 'invalid-url',
+    ]);
 });

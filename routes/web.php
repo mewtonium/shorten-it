@@ -4,9 +4,7 @@ use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+Route::inertia('/', 'Home')->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
@@ -18,6 +16,8 @@ require __DIR__.'/auth.php';
 // URL route group must be the last defined due to `url.visit` matching anything after "/"
 Route::controller(UrlController::class)
     ->as('url.')
+    ->middleware('throttle:30,60')
     ->group(function () {
+        Route::post('/url/shorten', 'shorten')->name('shorten');
         Route::get('/{hash}', 'visit')->name('visit')->whereAlphaNumeric('hash');
     });
