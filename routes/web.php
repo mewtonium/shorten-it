@@ -12,11 +12,12 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
+
+// URL route group must be the last defined due to `url.visit` matching anything after "/"
 Route::controller(UrlController::class)
     ->as('url.')
     ->group(function () {
-        Route::get('/{url:hash}', 'visit')->name('visit')->whereAlphaNumeric('hash');
+        Route::get('/{hash}', 'visit')->name('visit')->whereAlphaNumeric('hash');
     });
-
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';

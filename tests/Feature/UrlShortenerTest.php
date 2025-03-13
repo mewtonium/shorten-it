@@ -27,7 +27,7 @@ test('a shortened url can be visited', function () {
 });
 
 test('a 404 is thrown if attempting to visit an invalid shortened url', function () {
-    $response = $this->get(config('app.url').'/xxxxxxx');
+    $response = $this->get(route('url.visit', ['hash' => 'XYZ1234']));
 
     $response->assertStatus(404);
 });

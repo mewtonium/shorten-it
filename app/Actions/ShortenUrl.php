@@ -11,6 +11,6 @@ class ShortenUrl
 
     public function handle(Url $url): string
     {
-        return route('url.visit', $url, absolute: true);
+        return route('url.visit', ['hash' => $url->hash]);
     }
 }
