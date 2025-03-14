@@ -2,6 +2,7 @@
 
 use App\Actions\ShortenUrl;
 use App\Models\Url;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 test('a url can be shortened', function () {
@@ -21,6 +22,8 @@ test('a url can be shortened', function () {
 });
 
 test('a shortened url can be visited', function () {
+    Cache::flush();
+
     $url = Url::factory()->create([
         'url' => 'https://www.google.co.uk',
     ]);
@@ -30,6 +33,9 @@ test('a shortened url can be visited', function () {
     $response
         ->assertStatus(302)
         ->assertHeader('Location', 'https://www.google.co.uk');
+
+    expect($cached = Cache::get("url.{$url->hash}"))->toBeInstanceOf(Url::class);
+    expect($cached->url)->toBe('https://www.google.co.uk');
 });
 
 test('a 404 is thrown if attempting to visit an invalid shortened url', function () {

@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUrlRequest;
 use App\Models\Url;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Vinkla\Hashids\Facades\Hashids;
 
 class UrlController extends Controller
@@ -40,11 +41,17 @@ class UrlController extends Controller
             abort(404);
         }
 
-        try {
-            $url = Url::query()->findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            abort(404);
-        }
+        $url = Cache::rememberForever("url.{$hash}", function () use ($id) {
+            try {
+                $url = Url::query()->findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                return null;
+            }
+
+            return $url;
+        });
+
+        abort_if($url === null, 404);
 
         UpdateUrlVisits::run($url);
 
