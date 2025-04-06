@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+beforeEach()->skip(fn () => ! config('auth.enabled'));
 
 test('guests are redirected to the login page', function () {
     $response = $this->get('/dashboard');

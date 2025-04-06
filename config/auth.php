@@ -4,6 +4,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Authentication Enabled
+    |--------------------------------------------------------------------------
+    |
+    | This setting determines if authentication routes and features are
+    | registered with the application. Handy when disabling auth
+    | for development, testing, or non-authenticated apps.
+    |
+    */
+    'enabled' => env('AUTH_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Defaults
     |--------------------------------------------------------------------------
     |

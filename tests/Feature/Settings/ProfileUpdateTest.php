@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+beforeEach()->skip(fn () => ! config('auth.enabled'));
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();

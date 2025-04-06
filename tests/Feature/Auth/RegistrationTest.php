@@ -1,6 +1,6 @@
 <?php
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+beforeEach()->skip(fn () => ! config('auth.enabled'));
 
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');

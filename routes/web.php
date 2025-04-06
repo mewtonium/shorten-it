@@ -6,12 +6,14 @@ use Inertia\Inertia;
 
 Route::inertia('/', 'Home')->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+Route::middleware('auth.enabled')->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+    
+    require __DIR__.'/settings.php';
+    require __DIR__.'/auth.php';    
+});
 
 // URL route group must be the last defined due to `url.visit` matching anything after "/"
 Route::controller(UrlController::class)
