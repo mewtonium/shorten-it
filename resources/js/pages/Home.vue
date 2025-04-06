@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import FlashBanner from '@/components/FlashBanner.vue';
 import InputError from '@/components/InputError.vue';
+import ShortenedUrlResults from '@/components/ShortenedUrlResults.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import ShortenedUrlResults from '@/components/ShortenedUrlResults.vue';
-import FlashBanner from '@/components/FlashBanner.vue';
 
 const form = useForm({
     url: '',
@@ -15,8 +15,8 @@ const form = useForm({
 const submit = () => {
     form.post(route('url.shorten'), {
         onSuccess: () => form.reset(),
-    })
-}
+    });
+};
 </script>
 
 <template>
@@ -26,9 +26,9 @@ const submit = () => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
     <div class="flex min-h-screen flex-col items-center bg-background p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
-        <div class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity grow">
+        <div class="duration-750 starting:opacity-0 flex w-full grow items-center justify-center opacity-100 transition-opacity">
             <main class="flex w-full flex-col lg:max-w-4xl">
-                <h1 class="text-center text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-500 dark:text-blue-300 mb-10 lg:mb-16">
+                <h1 class="mb-10 text-center text-4xl font-bold text-blue-500 dark:text-blue-300 sm:text-5xl lg:mb-16 lg:text-6xl">
                     {{ $page.props.name }}!
                 </h1>
 
@@ -49,7 +49,7 @@ const submit = () => {
                     </div>
 
                     <div class="flex justify-center">
-                        <Button type="submit" size="xl" class="w-full sm:w-auto text-lg" :tabindex="4" :disabled="form.processing">
+                        <Button type="submit" size="xl" class="w-full text-lg sm:w-auto" :tabindex="4" :disabled="form.processing">
                             <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                             Shorten URL
                         </Button>
