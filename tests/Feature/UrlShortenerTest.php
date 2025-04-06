@@ -14,6 +14,7 @@ test('a url can be shortened', function () {
 
     $this->assertDatabaseHas(Url::class, [
         'url' => 'https://www.google.co.uk',
+        'visits' => 0,
     ]);
 
     $shortenedUrl = ShortenUrl::run(Url::first());

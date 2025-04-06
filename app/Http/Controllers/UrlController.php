@@ -25,7 +25,7 @@ class UrlController extends Controller
         return back()->with('url', [
             'shortened' => ShortenUrl::run($url),
             'original' => $url->url,
-            'visits' => $url->visits,
+            'visits' => $url->visits ?: 0,
             'lastVisitedAt' => $url->last_visited_at?->format('d/m/Y @ g:ia'),
         ]);
     }
