@@ -48,4 +48,6 @@ jobs:
         run: npm run build
 
       - name: Tests
+        env:
+          AUTH_ENABLED: ${{ vars.AUTH_ENABLED }}
         run: ./vendor/bin/pest
