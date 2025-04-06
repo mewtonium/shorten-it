@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { usePage } from '@inertiajs/vue3';
-import { type SharedData } from '@/types';
 import Icon from '@/components/Icon.vue';
+import { type SharedData } from '@/types';
+import { usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 
 interface Props {
     closeable?: boolean;
-};
+}
 
 withDefaults(defineProps<Props>(), {
     closeable: true,
@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 const page = usePage<SharedData>();
 
 const isOpen = ref(true);
-const close = () => isOpen.value = false;
+const close = () => (isOpen.value = false);
 
 const bannerMessage = computed(() => page.props.flash?.banner?.message);
 const bannerType = computed(() => page.props.flash?.banner?.type || 'info');
@@ -24,7 +24,7 @@ const bannerType = computed(() => page.props.flash?.banner?.type || 'info');
 <template>
     <div
         v-if="bannerMessage && isOpen"
-        class="fixed w-full min-h-16 py-4 flex justify-center items-center"
+        class="fixed flex min-h-16 w-full items-center justify-center py-4"
         :class="{
             'bg-blue-400 text-blue-900': bannerType === 'info',
             'bg-emerald-400 text-emerald-900': bannerType === 'success',
@@ -32,16 +32,13 @@ const bannerType = computed(() => page.props.flash?.banner?.type || 'info');
             'bg-red-400 text-red-900': bannerType === 'danger',
         }"
     >
-        <div
-            class="flex w-full justify-center items-center text-center relative"
-            :class="[closeable ? 'pl-4 pr-16' : 'px-4']"
-        >
+        <div class="relative flex w-full items-center justify-center text-center" :class="[closeable ? 'pl-4 pr-16' : 'px-4']">
             {{ bannerMessage }}
 
             <button
                 v-if="closeable"
                 @click="close"
-                class="p-2 rounded-sm absolute right-4"
+                class="absolute right-4 rounded-sm p-2"
                 :class="{
                     'bg-blue-300': bannerType === 'info',
                     'bg-emerald-300': bannerType === 'success',
