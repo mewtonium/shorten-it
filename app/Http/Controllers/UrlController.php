@@ -22,11 +22,17 @@ class UrlController extends Controller
             'url' => $request->url,
         ]);
 
-        return back()->with('url', [
-            'shortened' => ShortenUrl::run($url),
-            'original' => $url->url,
-            'visits' => $url->visits ?: 0,
-            'lastVisitedAt' => $url->last_visited_at?->format('d/m/Y @ g:ia'),
+        return back()->with([
+            'url' => [
+                'shortened' => ShortenUrl::run($url),
+                'original' => $url->url,
+                'visits' => $url->visits ?: 0,
+                'lastVisitedAt' => $url->last_visited_at?->format('d/m/Y @ g:ia'),
+            ],
+            'banner' => [
+                'type' => 'success',
+                'message' => 'Your link has been shortened!',
+            ],
         ]);
     }
 

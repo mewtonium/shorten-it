@@ -2,14 +2,11 @@
 
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::inertia('/', 'Home')->name('home');
 
 Route::middleware('auth.enabled')->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::inertia('/dashboard', 'Dashboard')->middleware(['auth', 'verified'])->name('home');
 
     require __DIR__.'/settings.php';
     require __DIR__.'/auth.php';

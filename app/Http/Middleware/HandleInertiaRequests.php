@@ -52,6 +52,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'url' => $request->session()->get('url'),
+                'banner' => [
+                    'type' => $request->session()->get('banner.type'),
+                    'message' => $request->session()->get('banner.message'),
+                ],
             ],
         ];
     }

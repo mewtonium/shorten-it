@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoaderCircle } from 'lucide-vue-next';
 import ShortenedUrlResults from '@/components/ShortenedUrlResults.vue';
+import FlashBanner from '@/components/FlashBanner.vue';
 
 const form = useForm({
     url: '',
@@ -19,6 +20,7 @@ const submit = () => {
 </script>
 
 <template>
+    <FlashBanner />
     <Head title="Welcome">
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
@@ -57,6 +59,5 @@ const submit = () => {
                 <ShortenedUrlResults :url="$page.props?.flash?.url" />
             </main>
         </div>
-        
     </div>
 </template>

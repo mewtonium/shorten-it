@@ -23,6 +23,13 @@ export interface SharedData extends PageProps {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
+    flash: {
+        url: string;
+        banner: {
+            type: 'info' | 'success' | 'danger' | 'warning';
+            message: string;
+        };
+    };
 }
 
 export interface User {
